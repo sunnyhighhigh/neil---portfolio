@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Doctor">
+  <rect width="64" height="64" rx="12" fill="#e0f2fe"/>
+  <circle cx="32" cy="21" r="9" fill="#f8fafc"/>
+  <path d="M14 52c1-10 8-16 18-16s17 6 18 16" fill="#f8fafc"/>
+  <rect x="28" y="39" width="8" height="16" rx="2" fill="#0ea5e9"/>
+  <rect x="24" y="43" width="16" height="8" rx="2" fill="#0ea5e9"/>
+</svg>

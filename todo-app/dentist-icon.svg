@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Dentist">
+  <rect width="64" height="64" rx="12" fill="#ecfeff"/>
+  <path d="M20 16c3 0 5 2 8 2s5-2 8-2c6 0 10 6 10 13 0 14-5 23-10 23-3 0-3-7-8-7s-5 7-8 7c-5 0-10-9-10-23 0-7 4-13 10-13z" fill="#f8fafc" stroke="#67e8f9" stroke-width="2"/>
+  <circle cx="26" cy="28" r="2" fill="#06b6d4"/>
+  <circle cx="38" cy="28" r="2" fill="#06b6d4"/>
+</svg>

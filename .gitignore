@@ -1,0 +1,5 @@
+todo-app/functions/node_modules/
+todo-app/functions/.runtimeconfig.json
+todo-app/.firebase/
+todo-app/functions/node_modules/**
+**/.DS_Store

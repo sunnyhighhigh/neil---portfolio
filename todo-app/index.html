@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Appointments" />
+  <title>Appointments</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell" aria-labelledby="app-title">
+    <section class="todo-card">
+      <header class="app-header">
+        <div class="header-top">
+          <h1 id="app-title">Appointments</h1>
+          <div class="header-actions">
+            <button id="auth-toggle" type="button" class="theme-btn small-btn" aria-label="Sign in to cloud sync">Sign in</button>
+            <button id="enable-phone-alerts" type="button" class="theme-btn small-btn" aria-label="Enable phone push alerts" onclick="(function(){var s=document.getElementById('sync-status');if(s){s.textContent='Phone alerts tapped...';s.style.color='var(--text-sub)';}if(typeof enablePhoneAlerts==='function'){enablePhoneAlerts();}})();">Phone alerts</button>
+            <button id="theme-toggle" type="button" class="theme-btn" aria-label="Switch theme">Dark mode</button>
+            <button id="refresh-app" type="button" class="theme-btn small-btn" aria-label="Refresh the app">Refresh app</button>
+            <button id="delete-completed-now" type="button" class="theme-btn small-btn" aria-label="Delete completed appointments now" onclick="(function(){var s=document.getElementById('sync-status');if(s){s.textContent='Delete completed tapped...';s.style.color='var(--text-sub)';}if(typeof window.handleDeleteCompletedNow==='function'){window.handleDeleteCompletedNow();}})();">Delete completed now</button>
+            <button id="sync-google-calendar" type="button" class="theme-btn" aria-label="Sync appointments to Google Calendar">Sync Google Calendar</button>
+            <button id="import-only-google" type="button" class="theme-btn small-btn" aria-label="Import appointments from Google Calendar only">Import only</button>
+            <button id="test-push-now" type="button" class="theme-btn small-btn" aria-label="Send an immediate test push notification">Test push</button>
+                        <button id="open-vscode-folder" type="button" class="theme-btn small-btn" aria-label="Open this project folder in VS Code">Open VS Code</button>
+            <button id="test-gas-connection" type="button" class="theme-btn small-btn" aria-label="Test Google Apps Script connection">Test connection</button>
+          </div>
+        </div>
+        <p>Organize your day with focus.</p>
+        <p id="sync-status" class="sync-status" aria-live="polite"></p>
+        <p id="auth-status" class="cloud-status" aria-live="polite"></p>
+        <p id="cloud-status" class="cloud-status" aria-live="polite"></p>
+        <p id="last-sync-status" class="last-sync-status" aria-live="polite">Last synced: --</p>
+        <img
+          class="header-hero"
+          src="post-it-note.svg"
+          alt="Yellow post-it note with appointments"
+        />
+      </header>
+
+      <section class="toolbar" aria-label="Sort tasks">
+        <label for="sort-select" class="sr-only">Sort tasks</label>
+        <select id="sort-select" hidden aria-hidden="true" tabindex="-1">
+          <option value="created-desc">Newest first</option>
+          <option value="created-asc">Oldest first</option>
+          <option value="due-asc">Due date</option>
+        </select>
+      </section>
+
+      <section class="view-toggle" aria-label="Switch app view">
+        <button id="view-list" type="button" class="view-btn active" aria-pressed="true">List View</button>
+        <button id="view-calendar" type="button" class="view-btn" aria-pressed="false">Calendar View</button>
+      </section>
+
+      <section class="controls" aria-label="Upcoming appointment filters">
+        <div class="upcoming-filters" role="tablist" aria-label="Upcoming appointments range">
+          <button type="button" class="range-btn active" data-range="all" role="tab" aria-selected="true">All Dates</button>
+          <button type="button" class="range-btn" data-range="7" role="tab" aria-selected="false">Next 1 Week</button>
+          <button type="button" class="range-btn" data-range="14" role="tab" aria-selected="false">Next 2 Weeks</button>
+          <button type="button" class="range-btn" data-range="30" role="tab" aria-selected="false">Next 30 Days</button>
+        </div>
+      </section>
+
+      <section class="calendar-section" aria-label="Due date calendar">
+        <div class="calendar-header">
+          <button id="calendar-prev" type="button" class="calendar-nav" aria-label="Previous month">Prev</button>
+          <h2 id="calendar-month-label"></h2>
+          <button id="calendar-next" type="button" class="calendar-nav" aria-label="Next month">Next</button>
+        </div>
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Sun</span>
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+        <div class="calendar-agenda">
+          <p id="calendar-selected-label" class="calendar-selected-label"></p>
+          <ul id="calendar-selected-list" class="calendar-selected-list"></ul>
+        </div>
+      </section>
+
+      <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+
+      <footer class="app-footer">
+        <span id="items-left">0 items left</span>
+      </footer>
+    </section>
+  </main>
+
+  <template id="todo-item-template">
+    <li class="todo-item">
+      <div class="task-content">
+        <img class="appointment-icon" src="" alt="" hidden />
+        <span class="appointment-emoji" hidden aria-hidden="true"></span>
+        <span class="task-text"></span>
+      </div>
+      <div class="item-meta">
+        <span class="due-date"></span>
+        <span class="appointment-time"></span>
+        <button type="button" class="delete-btn" aria-label="Delete appointment">Delete</button>
+      </div>
+    </li>
+  </template>
+
+  <button id="run-locally" type="button" class="theme-btn small-btn floating-live-btn" style="position:fixed;right:1rem;bottom:1rem;z-index:9999;box-shadow:0 10px 24px rgba(15,23,42,0.22);" aria-label="Open local app URL">Run locally</button>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging-compat.js"></script>
+  <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
