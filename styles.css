@@ -116,6 +116,23 @@ body {
     animation: fadeInUp 0.8s ease both;
 }
 
+.hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.hero-photo {
+    width: 100%;
+    max-width: 250px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
 .eyebrow {
     font-family: "JetBrains Mono", monospace;
     color: var(--accent);
@@ -308,6 +325,15 @@ body.dark .site-footer {
     .about-grid,
     .projects-grid {
         grid-template-columns: 1fr;
+    }
+
+    .hero-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-photo {
+        justify-self: start;
+        max-width: 180px;
     }
 }
 
