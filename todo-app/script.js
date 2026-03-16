@@ -1,4 +1,4 @@
-const STORAGE_KEY = "task-pilot-v1";
+﻿const STORAGE_KEY = "task-pilot-v1";
 const THEME_KEY = "task-pilot-theme";
 const VIEW_KEY = "task-pilot-view";
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzu484sC23YRAFA7XB0RGEvJaF7-U0i87gLPM8oQhTQtoEH4Xw3FwVY28bWHAgOyMLo2A/exec";
@@ -20,7 +20,7 @@ const TEST_PUSH_FUNCTION_URL = "https://us-central1-appointment-a11f2.cloudfunct
 const TEST_PUSH_SECRET = "";
 const PROJECT_FOLDER_PATH = "C:/Users/neilm/OneDrive/Documents/TODO app";
 const IS_LOCAL_DEV = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-const READ_ONLY_MODE = new URLSearchParams(window.location.search).get("readonly") === "1" || !IS_LOCAL_DEV;
+const READ_ONLY_MODE = new URLSearchParams(window.location.search).get("readonly") === "1";
 const TASK_TEXT_BLOCKLIST = new Set([
   "start course",
   "submit assignment",
@@ -924,23 +924,23 @@ function getAppointmentIconMeta(text) {
   const normalized = (text || "").toLowerCase();
 
   if (normalized.includes("dentist")) {
-    return { src: "dentist-icon.svg", alt: "Dentist appointment", emoji: "🦷" };
+    return { src: "dentist-icon.svg", alt: "Dentist appointment", emoji: "ðŸ¦·" };
   }
 
   if (normalized.includes("zumba") || normalized.includes("dance")) {
-    return { src: "dance-icon.svg", alt: "Dance appointment", emoji: "💃" };
+    return { src: "dance-icon.svg", alt: "Dance appointment", emoji: "ðŸ’ƒ" };
   }
 
   if (normalized.includes("sorensdale") || normalized.includes("sdp transition") || normalized.includes("school")) {
-    return { src: "school-icon.svg", alt: "School appointment", emoji: "🏫" };
+    return { src: "school-icon.svg", alt: "School appointment", emoji: "ðŸ«" };
   }
 
   if (normalized.includes("quest") || normalized.includes("diagnostic") || normalized.includes("lab")) {
-    return { src: "lab-icon.svg", alt: "Lab appointment", emoji: "🧪" };
+    return { src: "lab-icon.svg", alt: "Lab appointment", emoji: "ðŸ§ª" };
   }
 
   if (normalized.includes("doctor") || normalized.includes("cardiologist")) {
-    return { src: "doctor-icon.svg", alt: "Doctor appointment", emoji: "🩺" };
+    return { src: "doctor-icon.svg", alt: "Doctor appointment", emoji: "ðŸ©º" };
   }
 
   return null;
@@ -948,7 +948,7 @@ function getAppointmentIconMeta(text) {
 
 function normalizeGoogleTitle(title) {
   if (typeof title !== "string") return "Google Calendar event";
-  return title.replace(/^✅\s*/u, "").replace(/^📌\s*/u, "").trim() || "Google Calendar event";
+  return title.replace(/^âœ…\s*/u, "").replace(/^ðŸ“Œ\s*/u, "").trim() || "Google Calendar event";
 }
 
 function mergeGoogleEventsIntoTasks(events) {
@@ -1392,7 +1392,7 @@ function renderCalendarAgenda() {
   dueToday.forEach((task) => {
     const li = document.createElement("li");
     const timeText = formatDueTime(task.dueTime);
-    li.textContent = timeText ? `${timeText} — ${task.text}` : task.text;
+    li.textContent = timeText ? `${timeText} â€” ${task.text}` : task.text;
     calendarSelectedList.appendChild(li);
   });
 }
@@ -1522,14 +1522,14 @@ function render() {
         appointmentIcon.alt = iconMeta.alt;
         appointmentIcon.hidden = false;
         if (appointmentEmoji) {
-          appointmentEmoji.textContent = iconMeta.emoji || "📌";
+          appointmentEmoji.textContent = iconMeta.emoji || "ðŸ“Œ";
           appointmentEmoji.hidden = true;
         }
 
         appointmentIcon.onerror = () => {
           appointmentIcon.hidden = true;
           if (appointmentEmoji) {
-            appointmentEmoji.textContent = iconMeta.emoji || "📌";
+            appointmentEmoji.textContent = iconMeta.emoji || "ðŸ“Œ";
             appointmentEmoji.hidden = false;
           }
         };
@@ -1721,3 +1721,4 @@ saveTasks();
 render();
 startCompletedAppointmentCleanupTicker();
 setupFirebaseCloudSync();
+
